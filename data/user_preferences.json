@@ -1,0 +1,10 @@
+[
+    {
+        "email": "test_user_job_monitor@proton.me",
+        "name": "Test User Alpha",
+        "preferred_categories": [
+            "Natural Language Processing & ML",
+            "Data Science & Analytics (SQL & Programming)"
+        ]
+    }
+]
