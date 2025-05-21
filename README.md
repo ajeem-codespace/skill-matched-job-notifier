@@ -35,15 +35,23 @@
 
 <table>
   <tr>
-    <td><img src="assets/screenshots/1.png" width="600"/></td>
-    <td><img src="assets/screenshots/2.png" width="600"/></td>
+    <td><img src="assets/screenshots/1.png" width="350"/></td>
+    <td><img src="assets/screenshots/2.png" width="350"/></td>
   </tr>
   <tr>
-    <td><img src="assets/screenshots/3.png" width="600"/></td>
-    <td><img src="assets/screenshots/4.png" width="600"/></td>
+    <td align="center"><b>Skill based Filtering</b></td>
+    <td align="center"><b>Job Dashboard</b></td>
+  </tr>
+  <tr>
+    <td><img src="assets/screenshots/3.png" width="350"/></td>
+    <td><img src="assets/screenshots/4.png" width="350"/></td>
+  </tr>
+  <tr>
+    <td align="center"><b>Email Example</b></td>
+    <td align="center"><b>Email Notification</b></td>
   </tr>
 </table>
-
+<p align="center"><i>Click on images in the Streamlit app for full-size view.</i></p>
 
 ### Disclaimer:
  This project is developed for educational and demonstration purposes only and is not intended for commercial use.The job postings are scraped from the publicly accessible website Karkidi.com. This project does not claim ownership of the scraped data.
