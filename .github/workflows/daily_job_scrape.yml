@@ -29,8 +29,20 @@ jobs:
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add data/master_seen_urls.csv data/todays_new_jobs.csv
-          # Check if there are changes to commit before attempting to commit
+          
+          # Stage master_seen_urls.csv if it exists (it always should after a run, even if just read)
+          if [ -f data/master_seen_urls.csv ]; then
+            git add data/master_seen_urls.csv
+          fi
+          
+          # Stage todays_new_jobs.csv ONLY IF IT EXISTS
+          if [ -f data/todays_new_jobs.csv ]; then
+            git add data/todays_new_jobs.csv
+          else
+            echo "data/todays_new_jobs.csv not found, nothing to add for this file."
+          fi
+          
+          # Check if there are staged changes to commit before attempting to commit
           if ! git diff --staged --quiet; then
             git commit -m "Automated daily job data update via GitHub Action"
             git push
@@ -38,3 +50,5 @@ jobs:
           else
             echo "No data changes to commit."
           fi
+
+          
