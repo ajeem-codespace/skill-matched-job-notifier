@@ -1,12 +1,13 @@
-name: Daily Karkidi Job Scrape & Categorize
+name: Daily Karkidi Job Scrape, Categorize & Notify
 
 on:
   schedule:
-    - cron: '30 0 * * *' # Runs at 00:30 UTC daily (6:00 AM IST)
-  workflow_dispatch:
+    # Runs at 00:30 UTC daily (6:00 AM IST)
+    - cron: '30 0 * * *' 
+  workflow_dispatch: # Allows manual triggering
 
 jobs:
-  scrape_categorize_commit: 
+  scrape_categorize_notify:
     runs-on: ubuntu-latest
 
     steps:
@@ -17,38 +18,50 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.10' 
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
       - name: Run Daily Job Scraper & Categorizer
+        id: daily_scrape 
         run: python daily_scraper.py
 
       - name: Commit and push data changes
+        id: commit_data
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           
-          # Stage master_seen_urls.csv if it exists (it always should after a run, even if just read)
-          if [ -f data/master_seen_urls.csv ]; then
+          # Assume data directory exists from daily_scraper.py
+          # Stage master_seen_urls.csv if it was modified or created
+          if git diff --quiet HEAD -- data/master_seen_urls.csv; then
+            echo "master_seen_urls.csv not changed."
+          else
             git add data/master_seen_urls.csv
           fi
-          
-          # Stage todays_new_jobs.csv ONLY IF IT EXISTS
-          if [ -f data/todays_new_jobs.csv ]; then
+
+          # Stage todays_new_jobs.csv if it was created/modified
+          if [ -f data/todays_new_jobs.csv ]; then # Check if file exists
             git add data/todays_new_jobs.csv
           else
-            echo "data/todays_new_jobs.csv not found, nothing to add for this file."
+            echo "todays_new_jobs.csv not created by scraper, nothing to add for this file."
           fi
           
-          # Check if there are staged changes to commit before attempting to commit
+          # Check if there are staged changes to commit
           if ! git diff --staged --quiet; then
             git commit -m "Automated daily job data update via GitHub Action"
             git push
             echo "Data changes committed and pushed."
+            echo "changes_committed=true" >> $GITHUB_OUTPUT # Output for next step
           else
             echo "No data changes to commit."
+            echo "changes_committed=false" >> $GITHUB_OUTPUT # Output for next step
           fi
 
-          
+      - name: Send Email Notifications
+        env:
+          MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+        run: python notification_sender.py
