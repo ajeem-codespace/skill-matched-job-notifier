@@ -51,7 +51,7 @@
     <td align="center"><b>Email Notification</b></td>
   </tr>
 </table>
-<p align="center"><i>Click on images in the Streamlit app for full-size view.</i></p>
+<p align="center"><i>Click on images for full-size view.</i></p>
 
 ### Disclaimer:
  This project is developed for educational and demonstration purposes only and is not intended for commercial use.The job postings are scraped from the publicly accessible website Karkidi.com. This project does not claim ownership of the scraped data.
