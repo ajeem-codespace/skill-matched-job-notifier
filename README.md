@@ -32,7 +32,6 @@
     * Automated commits of updated data files (`master_seen_urls.csv`, `todays_new_jobs.csv`) back to the repository.
 
 ## Screenshots
-## Screenshots
 
 <table>
   <tr>
