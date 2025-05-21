@@ -3,6 +3,5 @@ streamlit==1.45.1
 requests
 beautifulsoup4
 pandas
-scikit-learn 
 joblib
 python-dateutil 
